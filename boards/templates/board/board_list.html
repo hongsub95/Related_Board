@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+    <table class="t-flex t-flex-col t-pl-10">
+        <thead>
+            <tr> 
+                <th>제목</th>
+                <th>작성일자</th>
+            </tr>     
+        </thead>
+        <tbody class="t-mt-10 t-justify-between">
+            {% for board in board_list %}
+            <tr class="t-flex">
+                <td>
+                    <a href="{% url 'posts:QnA_detail' QnA.pk %}">
+                        <span>{{QboardnA.title }}</span>
+                    </a>
+                </td>
+                <td>{{QnA.created}}</td>
+                    
+                {% endfor %}
+            </tr>
+         </tbody>
+    </table>
+    <div class="t-m-10 t-rounded-sm t-py-5 t-text-lg t-font-bold t-w-full">
+        <a href="{% url 'board:board_create' %}">글쓰기</a>
+    </div>    
+
+{% endblock content %}
+    

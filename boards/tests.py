@@ -1,3 +1,10 @@
 from django.test import TestCase
 
-# Create your tests here.
+title = "오늘은 뭐할까?"
+content = ""
+created =""
+
+
+class BoardTest(TestCase):
+    def setUp(self) -> None:
+        

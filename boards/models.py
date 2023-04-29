@@ -1,9 +1,11 @@
 import nltk
+import re
+nltk.download("all")
 from konlpy.tag import Okt
 from collections import Counter
 
 from django.db import models
-from .services import remove_punctuation
+
 
 class Board(models.Model):
     title = models.CharField(max_length=20,verbose_name="제목")
@@ -14,13 +16,39 @@ class Board(models.Model):
     class Meta:
         ordering = ["-created"]
 
-    def cand_realted_word(self):
+    def candidate_realted_word(self):
+        cleaned_content = re.sub(r'[^\.\?\!\w\d\s]','',self.content)
+        word_tokens = nltk.word_tokenize(cleaned_content)
+        tokens_pos = nltk.pos_tag(word_tokens)
+        english_nouns = []
+        for word, pos in tokens_pos:
+            if 'NN' in pos:
+                english_nouns.append(word) #영어 단어 추출
         okt = Okt()
-        nltk.download("all")
-        entire_list = []
-        english_word = remove_punctuation(self.content)  # 영어 단어
-        korean_word = okt.nouns(self.content)# 한국단어
-        return entire_list
+<<<<<<< HEAD
+       
 
         
+=======
+        related_word_list = [] # 연관되는 단어 보관 리스트
+        korean_nouns = okt.nouns(self.content)  # 한국 단어 추출 
+        korean_cnt = Counter(korean_nouns)
+        len_korean = len(korean_nouns)
+        english_cnt = Counter(english_nouns)
+        len_english = len(english_nouns)
+        
+        for key,val in korean_cnt.items():  # 한국 단어 연관될 수 있는 조건중 만족하는 단어 추출
+            if val/len_korean <= 0.4:
+                related_word_list.append(key)
+            else:
+                continue
+        
+        for key,val in english_cnt.items(): # 영어 단어 연관될 수 있는 조건중 만족하는 단어 추출
+            if val/len_english <= 0.4: # 40% 이하는 리스트에 담기
+                related_word_list.append(key)
+            else: 
+                continue
+        
+        return related_word_list
+>>>>>>> 86407047a06f6f00d5f5c147ce4eac751f615981
         
