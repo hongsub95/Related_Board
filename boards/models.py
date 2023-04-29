@@ -16,7 +16,11 @@ class Board(models.Model):
 
     def cand_realted_word(self):
         okt = Okt()
-        korean_nouns = okt.nouns(self.content)
-        english_nouns = 
-        okt.po
+        nltk.download("all")
+        entire_list = []
+        english_word = remove_punctuation(self.content)  # 영어 단어
+        korean_word = okt.nouns(self.content)# 한국단어
+        return entire_list
+
+        
         
