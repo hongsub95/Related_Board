@@ -1,3 +1,4 @@
+
 from django.http import HttpResponse
 from django.shortcuts import render,redirect
 from django.views.generic import FormView
@@ -29,4 +30,3 @@ def BoardDetailView(request,id):
     board = Board.objects.filter(id=id).first()
     related_boards = FindRelatedBoard(id)
     return render(request,"board/board_detail.html",{"board":board,"related_boards":related_boards})
-

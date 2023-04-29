@@ -25,11 +25,6 @@ class Board(models.Model):
             if 'NN' in pos:
                 english_nouns.append(word) #영어 단어 추출
         okt = Okt()
-<<<<<<< HEAD
-       
-
-        
-=======
         related_word_list = [] # 연관되는 단어 보관 리스트
         korean_nouns = okt.nouns(self.content)  # 한국 단어 추출 
         korean_cnt = Counter(korean_nouns)
@@ -50,5 +45,4 @@ class Board(models.Model):
                 continue
         
         return related_word_list
->>>>>>> 86407047a06f6f00d5f5c147ce4eac751f615981
         
