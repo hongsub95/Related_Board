@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block content %}
+{% block contents %}
     <table class="t-flex t-flex-col t-pl-10">
         <thead>
             <tr> 
@@ -8,14 +8,14 @@
             </tr>     
         </thead>
         <tbody class="t-mt-10 t-justify-between">
-            {% for board in board_list %}
+            {% for board in boards %}
             <tr class="t-flex">
                 <td>
-                    <a href="{% url 'posts:QnA_detail' QnA.pk %}">
-                        <span>{{QboardnA.title }}</span>
+                    <a href="{% url 'board:board_detail' board.pk %}">
+                        <span>{{board.title }}</span>
                     </a>
                 </td>
-                <td>{{QnA.created}}</td>
+                <td>{{board.created}}</td>
                     
                 {% endfor %}
             </tr>
@@ -25,5 +25,5 @@
         <a href="{% url 'board:board_create' %}">글쓰기</a>
     </div>    
 
-{% endblock content %}
+{% endblock contents %}
     

@@ -1,6 +1,6 @@
-
 from django.http import HttpResponse
 from django.shortcuts import render,redirect
+from django.urls import reverse
 from django.views.generic import FormView
 
 from .models import Board
@@ -20,13 +20,13 @@ def BoardCreateView(request):
             board.title = form.cleaned_data["title"]
             board.content = form.cleaned_data["content"]
             board.save()
-            return redirect("board:board_list",board.pk)
+            return redirect("board:board_list")
     else:
         form = BoardCreateForm()
         return render(request,"board/board_create.html",{"form":form})
-        
 
-def BoardDetailView(request,id):
-    board = Board.objects.filter(id=id).first()
-    related_boards = FindRelatedBoard(id)
+
+def BoardDetailView(request,board_id):
+    board = Board.objects.filter(id=board_id).first()
+    related_boards = FindRelatedBoard(board_id)
     return render(request,"board/board_detail.html",{"board":board,"related_boards":related_boards})
