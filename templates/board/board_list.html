@@ -1,29 +1,19 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block contents %}
-    <table class="t-flex t-flex-col t-pl-10">
-        <thead>
-            <tr> 
-                <th>제목</th>
-                <th>작성일자</th>
-            </tr>     
-        </thead>
-        <tbody class="t-mt-10 t-justify-between">
-            {% for board in boards %}
-            <tr class="t-flex">
-                <td>
-                    <a href="{% url 'board:board_detail' board.pk %}">
-                        <span>{{board.title }}</span>
-                    </a>
-                </td>
-                <td>{{board.created}}</td>
-                    
-                {% endfor %}
-            </tr>
-         </tbody>
+    <table border="1"> 
+        <tr>
+            <td>제목</td>
+            <td>작성일</td>
+        </tr>
+        {% for board in boards %}
+        <tr>
+            <td><a href="{% url 'board:board_detail' board.pk %}">{{board.title}}</a></td> 
+            <td>{{board.created}}</td>
+        </tr>
+        {% endfor %}
     </table>
-    <div class="t-m-10 t-rounded-sm t-py-5 t-text-lg t-font-bold t-w-full">
-        <a href="{% url 'board:board_create' %}">글쓰기</a>
-    </div>    
+    <a href="{% url 'board:board_create' %}">글쓰기</a>
 
 {% endblock contents %}
     

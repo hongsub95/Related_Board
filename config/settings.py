@@ -40,7 +40,7 @@ DJANGO_APPS = [
     "konlpy",
     "nltk",
 ]
-PROJECT_APPS = ["boards.apps.BoardsConfig",]
+PROJECT_APPS = ["boards.apps.BoardsConfig","seed.apps.SeedConfig"]
 INSTALLED_APPS = DJANGO_APPS+PROJECT_APPS
 
 MIDDLEWARE = [
@@ -119,7 +119,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = "static/"
+STATICFILES_DIRS = [BASE_DIR / 'config/static']
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

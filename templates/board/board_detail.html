@@ -1,7 +1,27 @@
 {% extends 'base.html' %}
-
-
-{% block contents %}
-    
+{% load static %}
+{% block contents %}  
+<div>
+    <div class="">
+        제목 : {{board.title}}
+        <hr/>
+        내용 : {{board.content}}
+        <hr/>
+    </div>
+    <div>
+        <h1>연관게시물</h1>
+        {% if related_boards %}
+            {% for board in related_boards  %}
+                <a href="{% url 'board:board_detail' board_id=board.pk %}">
+                    <span>{{board.title}}</span>
+                </a> 
+                <hr/>
+            {% endfor %}
+        {% else %}
+        <span>연관된 게시물이 없습니다</span>
+        <hr/>
+        {% endif %}
+    </div>
+</div>
 {% endblock contents %}
     

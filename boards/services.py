@@ -41,6 +41,6 @@ def FindRelatedBoard(board_id):
         # 첫번째 조건(두개 이상)
         if cnt > 2:
             #연관게시물pk, 두번째 조건(연관단어 빈도수), 세번째 조건(연관단어빈도수/연관될 수 있는 후보단어들)들을 각각 담아서 우선도를 비교할때 사용
-            related_board.append((b.pk,related_word_cnt,related_word_cnt/len(b_word))) 
+            related_board.append((b,related_word_cnt,related_word_cnt/len(b_word))) 
     related_board=sorted(related_board,key=lambda x:(x[1],x[2]),reverse=True) #sort함수를 이용하여 연관도가 높은순으로 내림차순
     return related_board 

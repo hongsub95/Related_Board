@@ -28,5 +28,8 @@ def BoardCreateView(request):
 
 def BoardDetailView(request,board_id):
     board = Board.objects.filter(id=board_id).first()
-    related_boards = FindRelatedBoard(board_id)
+    if FindRelatedBoard(board_id):
+        related_boards = [board[0] for board in FindRelatedBoard(board_id)]
+    else:
+        related_boards = []
     return render(request,"board/board_detail.html",{"board":board,"related_boards":related_boards})

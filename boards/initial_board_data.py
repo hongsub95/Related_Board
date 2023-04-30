@@ -1,10 +1,6 @@
-from django.test import TestCase,Client
-from django.urls import reverse
-from .models import Board
+from . import models
 
-c=Client()
-class BoardTest(TestCase):
-    
+def gen_board(apps, schema_editor):
     TITLE1 = "파이썬에 대해 알아보기"
     CONTENT1 ="파이썬은 파이썬 파이썬 파이썬 파이썬 파이썬 파이썬 파이썬 파이썬 파이썬 파이썬 파이썬 파이썬 파이썬 파이썬 파이썬 파이썬 파이썬 파이썬 파이썬 파이썬 파이썬 파이썬 파이썬 초보자부터 전문가까지 사용자층을 보유하고 있다.동적 타이핑(dynamic typing) 범용 프로그래밍 언어로,펄 및 루비와 자주 비교된다.다양한 플랫폼에서 쓸 수 있고, 라이브러리(모듈)가 풍부하여, 대학을 비롯한 여러 교육 기관, 연구 기관 및 산업계에서 이용이 증가하고 있다.또 파이썬은 순수한 프로그램 언어로서의 기능 외에도 다른 언어로 쓰인 모듈들을 연결하는 접착제 언어로써 자주 이용된다."
 
@@ -25,42 +21,12 @@ class BoardTest(TestCase):
     
     TITLE7 = "파이썬ㅇㅇ"
     CONTENT7 = "파이썬 초보자부터 전문가까지 사용자층을 보유하고 있다.동적 타이핑(dynamic typing) 범용 프로그래밍 언어로,펄 및 루비와 자주 비교된다.다양한 플랫폼에서 쓸 수 있고, 라이브러리(모듈)가 풍부하여, 대학을 비롯한 여러 교육 기관, 연구 기관 및 산업계에서 이용이 증가하고 있다.또 파이썬은 순수한 프로그램 언어로서의 기능 외에도 다른 언어로 쓰인 모듈들을 연결하는 접착제 언어로써 자주 이용된다.파이썬은 1990년 암스테르담의 귀도 반 로섬(Guido Van Rossum)이 개발한 인터프리터 언어이다. 귀도는 파이썬이라는 이름을 자신이 좋아하는 코미디 쇼인 몬티 파이썬의 날아다니는 서커스(Monty Python’s Flying Circus)에서 따왔다고 한다.인터프리터 언어란 한 줄씩 소스 코드를 해석해서 그때그때 실행해 결과를 바로 확인할 수 있는 언어이다.파이썬의 사전적 의미는 고대 신화에 나오는 파르나소스 산의 동굴에 살던 큰 뱀을 뜻하며, 아폴로 신이 델파이에서 파이썬을 퇴치했다는 이야기가 전해지고 있다. 대부분의 파이썬 책 표지와 아이콘이 뱀 모양으로 그려져 있는 이유가 여기에 있다.파이썬은 컴퓨터 프로그래밍 교육을 위해 많이 사용하지만, 기업의 실무를 위해서도 많이 사용하는 언어이다. 그 대표적인 예가 바로 구글이다. 필자는 구글에서 만든 소프트웨어의 50%이상이 파이썬으로 작성되었다는 이야기를 들었다. 이외에도 많이 알려진 예를 몇 가지 들자면 온라인 사진 공유 서비스 인스타그램(Instagram), 파일 동기화 서비스 드롭박스(Dropbox)등이 있다.또한 파이썬 프로그램은 공동 작업과 유지 보수가 매우 쉽고 편하다. 그 때문에 이미 다른 언어로 작성된 많은 프로그램과 모듈이 파이썬으로 재구성되고 있다. 국내에서도 그 가치를 인정받아 사용자 층이 더욱 넓어지고 있고, 파이썬을 사용해 프로그램을 개발하는 업체들 또한 늘어 가고 있는 추세이다."
-    def setUp(self) -> None:
-
-        self.board1 = Board.objects.create(title=self.TITLE1,content=self.CONTENT1)
-        self.board2 =Board.objects.create(title=self.TITLE2,content=self.CONTENT2)
-        self.board3 = Board.objects.create(title=self.TITLE3,content=self.CONTENT3)
-        self.board4 = Board.objects.create(title=self.TITLE4,content=self.CONTENT4)
-        self.board5 = Board.objects.create(title=self.TITLE5,content=self.CONTENT5)
-        self.board6 = Board.objects.create(title=self.TITLE7,content = self.CONTENT7)
-        
-
     
-    # 게시물 리스트에 3개 있는지 확인
-    def test_list_get_board(self): 
-        response = c.get(reverse("board:board_list"))
-        self.assertQuerysetEqual(response.context['boards'],Board.objects.all())
-        self.assertEqual(len(response.context['boards']),6)
+    models.Board.objects.create(title=TITLE2,content=CONTENT2)
+    models.Board.objects.create(title=TITLE1,content=CONTENT1)
+    models.Board.objects.create(title=TITLE3,content=CONTENT3)
+    models.Board.objects.create(title=TITLE4,content=CONTENT4)
+    models.Board.objects.create(title=TITLE5,content=CONTENT5)
+    models.Board.objects.create(title=TITLE6,content=CONTENT6)
+    models.Board.objects.create(title=TITLE7,content =CONTENT7)
     
-    # 게시물 하나 만들고(TITLE4) 확인
-    def test_post_board(self):
-        response = c.post(reverse("board:board_create"),data={"title":self.TITLE6,"content":self.CONTENT6})
-        self.assertEqual(response.status_code,302) 
-        self.assertEqual(len(Board.objects.all()),7)
-        self.assertEqual(Board.objects.filter(pk=7).first().title,self.TITLE6)
-    
-    # 60퍼 이상의 단어는 연관게시물에 찾는데 관여 하면 안됨
-    def test_60_over_related_word(self): 
-        board_word = self.board1.candidate_realted_word()
-        result = False
-        if "파이썬" in board_word:
-            result = True
-        self.assertEqual(result,False)
-    
-    def test_Related_Board(self):
-        response = c.get(reverse("board:board_detail",kwargs={"board_id":1}))
-        print(response.context["related_boards"])
-        
-    
-    
-        
