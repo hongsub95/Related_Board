@@ -33,3 +33,8 @@ def BoardDetailView(request,board_id):
     else:
         related_boards = []
     return render(request,"board/board_detail.html",{"board":board,"related_boards":related_boards})
+
+def BoardDeleteView(request,board_id):
+    board = Board.objects.filter(id=board_id).first()
+    board.delete()
+    return redirect(reverse("board:board_list"))

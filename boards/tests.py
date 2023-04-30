@@ -32,22 +32,20 @@ class BoardTest(TestCase):
         self.board3 = Board.objects.create(title=self.TITLE3,content=self.CONTENT3)
         self.board4 = Board.objects.create(title=self.TITLE4,content=self.CONTENT4)
         self.board5 = Board.objects.create(title=self.TITLE5,content=self.CONTENT5)
-        self.board6 = Board.objects.create(title=self.TITLE7,content = self.CONTENT7)
+        self.board6 = Board.objects.create(title=self.TITLE6,content = self.CONTENT6)
         
-
-    
     # 게시물 리스트에 3개 있는지 확인
     def test_list_get_board(self): 
         response = c.get(reverse("board:board_list"))
         self.assertQuerysetEqual(response.context['boards'],Board.objects.all())
-        self.assertEqual(len(response.context['boards']),6)
+        self.assertEqual(len(response.context['boards']),13)
     
     # 게시물 하나 만들고(TITLE4) 확인
     def test_post_board(self):
         response = c.post(reverse("board:board_create"),data={"title":self.TITLE6,"content":self.CONTENT6})
         self.assertEqual(response.status_code,302) 
-        self.assertEqual(len(Board.objects.all()),7)
-        self.assertEqual(Board.objects.filter(pk=7).first().title,self.TITLE6)
+        self.assertEqual(len(Board.objects.all()),14)
+        self.assertEqual(Board.objects.filter(pk=7).first().title,self.TITLE7)
     
     # 60퍼 이상의 단어는 연관게시물에 찾는데 관여 하면 안됨
     def test_60_over_related_word(self): 
@@ -57,9 +55,24 @@ class BoardTest(TestCase):
             result = True
         self.assertEqual(result,False)
     
-    def test_Related_Board(self):
+    # 연관게시물 개수 확인
+    def test_related_Board(self):
         response = c.get(reverse("board:board_detail",kwargs={"board_id":1}))
-        print(response.context["related_boards"])
+        self.assertEqual(len(response.context['related_boards']),10)
+    
+    #게시물 삭제 
+    def test_delete_board(self):
+        response = c.delete(reverse("board:board_delete",kwargs={"board_id":1}))
+        self.assertEqual(response.status_code,302)
+        self.assertEqual(len(Board.objects.all()),12)
+    
+    #연관게시물 삭제 후 해당 연관게시물의 개수 확인
+    def test_after_delete_related_board(self):
+        c.delete(reverse("board:board_delete",kwargs={"board_id":2}))
+        response = c.get(reverse("board:board_detail",kwargs={"board_id":1}))
+        self.assertEqual(len(response.context['related_boards']),9)
+        
+        
         
     
     

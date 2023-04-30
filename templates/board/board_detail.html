@@ -1,14 +1,12 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block contents %}  
-<div>
+
     <div class="">
         제목 : {{board.title}}
         <hr/>
         내용 : {{board.content}}
         <hr/>
-    </div>
-    <div>
         <h1>연관게시물</h1>
         {% if related_boards %}
             {% for board in related_boards  %}
@@ -21,7 +19,10 @@
         <span>연관된 게시물이 없습니다</span>
         <hr/>
         {% endif %}
-    </div>
-</div>
+
+    <a href="{% url 'board:board_delete' board.pk %}">
+        삭제하기
+    </a>
+
 {% endblock contents %}
     
