@@ -1,10 +1,11 @@
 import nltk
 import re
-nltk.download("all")
 from konlpy.tag import Okt
 from collections import Counter
 
 from django.db import models
+
+from .services import remove_punctuation
 
 
 class Board(models.Model):
@@ -17,7 +18,8 @@ class Board(models.Model):
         ordering = ["-created"]
 
     def candidate_realted_word(self):
-        cleaned_content = re.sub(r'[^\.\?\!\w\d\s]','',self.content)
+        nltk.download("all")
+        cleaned_content = remove_punctuation(self.content).lower() # remove_punctutation 함수를 이용하여 한글을 제거한 영어만 분리
         word_tokens = nltk.word_tokenize(cleaned_content)
         tokens_pos = nltk.pos_tag(word_tokens)
         english_nouns = []
@@ -27,6 +29,7 @@ class Board(models.Model):
         okt = Okt()
         related_word_list = [] # 연관되는 단어 보관 리스트
         korean_nouns = okt.nouns(self.content)  # 한국 단어 추출 
+        korean_nouns = [korean_noun for korean_noun in korean_nouns if len(korean_noun) > 1 ] # 한글자는 빼기
         korean_cnt = Counter(korean_nouns)
         len_korean = len(korean_nouns)
         english_cnt = Counter(english_nouns)
