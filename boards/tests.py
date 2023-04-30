@@ -2,6 +2,8 @@ from django.test import TestCase,Client
 from django.urls import reverse
 from .models import Board
 
+
+# 기존 덤프파일(initial_board_data)와 테스트 하기 위한 임의로 만든 게시물 (덤프파일은 7개, 임의의 게시물은 6개), 덤프파일과 임의의 게시물의 내용은 똑같다.
 c=Client()
 class BoardTest(TestCase):
     
